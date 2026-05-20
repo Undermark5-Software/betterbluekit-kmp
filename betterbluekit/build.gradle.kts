@@ -4,6 +4,10 @@ plugins {
 }
 
 kotlin {
+    compilerOptions {
+        optIn.add("kotlin.uuid.ExperimentalUuidApi")
+    }
+
     jvm()
     iosX64()
     iosArm64()

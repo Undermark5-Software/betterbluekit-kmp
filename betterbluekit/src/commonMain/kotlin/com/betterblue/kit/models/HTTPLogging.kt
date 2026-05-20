@@ -1,10 +1,15 @@
+@file:UseSerializers(UuidSerializer::class)
+
 package com.betterblue.kit.models
 
+import com.betterblue.kit.serialization.UuidSerializer
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import kotlin.uuid.Uuid
 
 @Serializable
 enum class HTTPRequestType(val displayName: String) {
@@ -22,7 +27,7 @@ typealias HTTPLogSink = (HTTPLog) -> Unit
 @Serializable
 data class HTTPLog(
     val timestamp: Instant,
-    val accountId: String,
+    val accountId: Uuid,
     val requestType: HTTPRequestType,
     val method: String,
     val url: String,
@@ -45,7 +50,7 @@ data class HTTPLog(
     val isSuccess: Boolean
         get() = responseStatus?.let { it in 200..299 && error == null && apiError == null } ?: false
 
-    val formattedDuration: String get() = "${"%.2f".format(duration)}s"
+    val formattedDuration: String get() = "%.2fs".format(duration)
 
     val preciseTimestamp: String
         get() {
